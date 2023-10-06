@@ -1,3 +1,4 @@
+// Trigger for Account Duplicate Names.
 trigger AccountATriggerDupName on Account (before insert,before update, after undelete) {
 Set<String> accNameSet = new Set<String>();
     for(Account objAcc : trigger.new){
