@@ -1,4 +1,4 @@
-
+// This code Avoid duplication of names
 trigger AccountATriggerDupName on Account (before insert,before update, after undelete) {
 Set<String> accNameSet = new Set<String>();
     for(Account objAcc : trigger.new){
