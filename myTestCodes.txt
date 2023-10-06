@@ -1,0 +1,21 @@
+trigger AccountATriggerDupName on Account (before insert,before update, after undelete) {
+Set<String> accNameSet = new Set<String>();
+    for(Account objAcc : trigger.new){
+        if(objAcc.Name!=null){
+            accNameSet.add(objAcc.Name);
+        }
+    } 
+    
+    Map<String,Account> accMap = new Map<String,Account>();
+    for(Account objAcc : [Select Id, Name, Rating from Account where Name IN: accNameSet]){
+        accMap.put(objAcc.Name,objAcc);
+    }
+    
+    if(!accMap.isEmpty()){
+        for(Account objAcc : trigger.new){
+            if(accMap.containsKey(objAcc.Name)){
+                objAcc.Name.addError('This Account Name already exists');
+            }
+        }
+    }
+}
